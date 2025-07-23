@@ -1,6 +1,14 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { ThemeProvider } from "@/components/theme-provider";
+import { ModeToggle } from "@/components/ModeToggle";
+import { Separator } from "@/components/ui/separator";
+
+import { Toaster } from "@/components/ui/sonner"
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,11 +31,36 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <header className='flex justify-between border-b items-center p-4'>
+            <Link href="/">
+              <h1 className='text-2xl font-bold'>InspoLog</h1>
+            </Link>
+            <div className='flex min-w-sm items-center justify-around'>
+              <Button asChild variant="link">
+
+                <Link href="/journals">
+                  <p>My Journals</p>
+                </Link>
+              </Button>
+              <ModeToggle />
+            </div>
+          </header>
+          <Separator className='border-2' />
+
+          {children}
+          <Toaster position="top-center" richColors />
+
+          <Separator className='border-2' />
+          <footer className='flex justify-between items-center p-6'>
+            <p>InspoLog</p>
+            <p>© {new Date().getFullYear()} InspoLog. All rights reserved.</p>
+          </footer>
+        </ThemeProvider>
       </body>
     </html>
   );

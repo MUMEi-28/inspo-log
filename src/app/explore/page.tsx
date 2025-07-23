@@ -1,41 +1,22 @@
-'use client'
-
 import React from 'react'
-import Link from 'next/link'
+
 import { dummyEntries } from '@/lib/data/Entries'
 import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardDescription, CardAction, CardContent, CardFooter } from '@/components/ui/card'
 import { Badge } from "@/components/ui/badge"
-import { toast } from 'sonner'
+import {
+	Pagination,
+	PaginationContent,
+	PaginationEllipsis,
+	PaginationItem,
+	PaginationLink,
+	PaginationNext,
+	PaginationPrevious,
+} from "@/components/ui/pagination"
 
 export default function page() {
-
-	function onClickDelete(key: number): void {
-		toast('Removed from journals', {
-			action: {
-				label: 'Undo',
-				onClick: () => toast.success('Restored from journals')
-			},
-		})
-
-	}
-
 	return (
-		<div className='flex items-center  flex-col min-h-screen p-12'>
-			<div className='flex justify-between w-full p-4'>
-				<h1 className='text-4xl font-bold'>Saved Journals</h1>
-				<div className='flex gap-6 '>
-
-					<Link href="/explore">
-						<Button variant="outline">Browse</Button>
-					</Link>
-
-					<Link href="/journals/new">
-						<Button>Add Entry</Button>
-					</Link>
-
-				</div>
-			</div>
+		<div className='min-h-[90vh] p-12 flex flex-col justify-between'>
 
 			<div className='grid grid-cols-3 gap-4 '>
 				{
@@ -48,7 +29,7 @@ export default function page() {
 									<p className='text-start w-full'>{entry.date}</p>
 								</CardDescription>
 								<CardAction>
-									<Button variant="destructive" onClick={() => onClickDelete(key)}>Delete</Button>
+									<Button>Save</Button>
 								</CardAction>
 							</CardHeader>
 
@@ -68,8 +49,34 @@ export default function page() {
 						</Card>
 					)
 				}
-
 			</div>
+
+
+			{/* PAGINATION */}
+			<Pagination>
+				<PaginationContent>
+					<PaginationItem>
+						<PaginationPrevious href="#" />
+					</PaginationItem>
+					<PaginationItem>
+						<PaginationLink href="#">1</PaginationLink>
+					</PaginationItem>
+					<PaginationItem>
+						<PaginationLink href="#" isActive>
+							2
+						</PaginationLink>
+					</PaginationItem>
+					<PaginationItem>
+						<PaginationLink href="#">3</PaginationLink>
+					</PaginationItem>
+					<PaginationItem>
+						<PaginationEllipsis />
+					</PaginationItem>
+					<PaginationItem>
+						<PaginationNext href="#" />
+					</PaginationItem>
+				</PaginationContent>
+			</Pagination>
 		</div>
 	)
 }
