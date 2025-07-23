@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { toast } from "sonner"
+import RandomQuote from '@/components/RandomQuoteFetcher'
 
 
 export default function page() {
@@ -33,6 +34,9 @@ export default function page() {
     <div>
 
       <main className=''>
+
+        <RandomQuote />
+
         <div className='flex flex-col items-center justify-center h-screen'>
           <h2 className='text-8xl font-bold text-center mb-15'>InspoLog - Collect <br /> Your Daily Spark</h2>
           <p className='text-center mb-10 text-2xl'>Save quotes, thoughts, and lessons that inspire you. One moment at a time.</p>
