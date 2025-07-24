@@ -17,16 +17,11 @@ import {
 } from "@/components/ui/pagination"
 import { toast } from 'sonner'
 import { Loader, RotateCcw } from 'lucide-react'
-
-
-interface ZenQuotes {
-	q: string; // quotes
-	a: string; // author
-}
+import { SavedQuote, ZenQuote } from '@/types/quotes'
 
 export default function page() {
 
-	const [quotes, setQuotes] = useState<ZenQuotes[] | null>(null);
+	const [quotes, setQuotes] = useState<ZenQuote[] | null>(null);
 	const [isLoading, setIsloading] = useState<boolean>(true);
 
 	// Pagination states
@@ -43,7 +38,7 @@ export default function page() {
 				if (!response.ok) {
 					throw new Error("Error on /api/explore: " + response.status);
 				}
-				const data: ZenQuotes[] = await response.json();
+				const data: ZenQuote[] = await response.json();
 				setQuotes(data);
 			}
 			catch (err: any) {
@@ -109,12 +104,43 @@ export default function page() {
 	};
 
 
-	function onCLickSave(quoteToSave: ZenQuotes) {
-		toast.success("Saved to your journals",
-			{
-				description: quoteToSave.q
+	function onCLickSave(quoteToSave: ZenQuote) {
+
+		try {
+			const existingQuotes = localStorage.getItem('savedQuotes');
+			let existingQuotesArray: SavedQuote[] = [];
+
+			if (existingQuotes) {
+				existingQuotesArray = JSON.parse(existingQuotes);
 			}
-		)
+
+			const isDuplicate: boolean = existingQuotesArray.some((savedQuote) => savedQuote.q === quoteToSave.q && savedQuote.a === quoteToSave.a);
+
+			if (isDuplicate) {
+				toast.warning("Quote already saved", {
+					description: quoteToSave.q
+				});
+				return;
+			}
+
+			const maxId = existingQuotesArray.reduce((max, quote) => Math.max(max, quote.id), 0);
+			const newId = maxId + 1;
+
+			const newSavedQuote: SavedQuote = {
+				id: newId,
+				a: quoteToSave.a || "",
+				q: quoteToSave.q || "",
+			}
+
+			existingQuotesArray.push(newSavedQuote);
+
+			localStorage.setItem('savedQuotes', JSON.stringify(existingQuotesArray));
+
+			toast.success("Saved to your journals")
+		}
+		catch (e: any) {
+			toast.error(e.message);
+		}
 	}
 
 

@@ -1,27 +1,100 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { dummyEntries } from '@/lib/data/Entries'
 import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardDescription, CardAction, CardContent, CardFooter } from '@/components/ui/card'
 import { Badge } from "@/components/ui/badge"
 import { toast } from 'sonner'
+import { ZenQuote, SavedQuote } from '@/types/quotes'
+import { Loader2 } from 'lucide-react'
 
 export default function page() {
 
-	function onClickDelete(key: number): void {
-		toast('Removed from journals', {
-			action: {
-				label: 'Undo',
-				onClick: () => toast.success('Restored from journals')
-			},
-		})
+	const [savedQuotes, setSavedQuotes] = useState<SavedQuote[]>([]);
+	const [isLoading, setIsLoading] = useState<Boolean>(true);
 
+	useEffect(() => {
+		try {
+			setIsLoading(true);
+
+			const savedQuotesString = localStorage.getItem('savedQuotes');
+			if (savedQuotesString) {
+				setSavedQuotes(JSON.parse(savedQuotesString));
+			}
+			else {
+				setSavedQuotes([]);
+			}
+		}
+		catch (e: any) {
+			console.error(e);
+			toast.error(e.message);
+		}
+		finally {
+			setIsLoading(false);
+		}
+	}, [])
+
+
+	function onClickDelete(idToDelete: number): void {
+
+		try {
+
+			const previousQuotes = JSON.parse(JSON.stringify(savedQuotes)); // Deep clone for safety
+
+			const updatedQuotes = savedQuotes?.filter((quote) => quote.id !== idToDelete);
+			setSavedQuotes(updatedQuotes);
+			localStorage.setItem('savedQuotes', JSON.stringify(updatedQuotes));
+
+			toast('Removed from journals', {
+				action: {
+					label: 'Undo',
+					onClick: () => {
+
+						localStorage.setItem('savedQuotes', JSON.stringify(previousQuotes));
+						setSavedQuotes(previousQuotes);
+						toast.success('Restored from journals');
+					}
+				},
+				duration: 5000,
+			})
+		}
+		catch (e: any) {
+			toast.error("Error: " + e.message);
+		}
+	}
+
+	if (isLoading) {
+		return (
+			<div className='flex items-center justify-center h-screen'>
+				<Loader2 className='animate-spin' />
+			</div>
+		)
+	}
+
+	if (savedQuotes.length === 0) {
+		return (
+			<div className='flex items-center justify-center h-screen'>
+				<Card className='flex flex-col items-between'>
+
+					<CardContent className='flex items-center justify-center gap-8'>
+						<p className='text-2xl'>No saved quotes</p>
+					</CardContent>
+
+					<CardHeader className='items-center justify-center'>
+						<Link href="/explore">
+							<Button>Browse</Button>
+						</Link>
+					</CardHeader>
+				</Card>
+			</div>
+		)
 	}
 
 	return (
 		<div className='flex items-center  flex-col min-h-screen p-12'>
+
 			<div className='flex justify-between w-full p-4'>
 				<h1 className='text-4xl font-bold'>Saved Journals</h1>
 				<div className='flex gap-6 '>
@@ -39,31 +112,20 @@ export default function page() {
 
 			<div className='grid grid-cols-3 gap-4 '>
 				{
-					dummyEntries.map((entry, key) =>
-						<Card key={key} className='flex flex-col items-between'>
+					savedQuotes.map((entry) =>
+						<Card key={entry.id} className='flex flex-col items-between'>
 
 							<CardHeader>
-								<CardTitle>{entry.author}</CardTitle>
-								<CardDescription>
-									<p className='text-start w-full'>{entry.date}</p>
-								</CardDescription>
+								<CardTitle>{entry.a}</CardTitle>
+
 								<CardAction>
-									<Button variant="destructive" onClick={() => onClickDelete(key)}>Delete</Button>
+									<Button variant="destructive" onClick={() => onClickDelete(entry.id)}>Delete</Button>
 								</CardAction>
 							</CardHeader>
 
 							<CardContent className='flex items-center justify-center gap-8'>
-								<img src={entry.image} alt="Placeholder" className='bg-white size-24' />
-								<q className='text-2xl'>{entry.quote}</q>
+								<q className='text-2xl'>{entry.q}</q>
 							</CardContent>
-
-							<CardFooter>
-								{
-									entry.tags.map((tag, key) => <p key={key} className=''>
-										<Badge className='mr-2 border-2 p-2' variant="outline">{tag}</Badge>
-									</p>)
-								}
-							</CardFooter>
 
 						</Card>
 					)

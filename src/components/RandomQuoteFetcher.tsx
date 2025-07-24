@@ -4,20 +4,14 @@ import React, { useEffect, useState } from 'react'
 import { Button } from './ui/button'
 import { Card, CardHeader, CardTitle, CardDescription, CardAction, CardContent, CardFooter } from './ui/card'
 import { toast } from 'sonner'
+import { ZenQuote, SavedQuote } from '@/types/quotes'
 
-interface ZenQuote {
-	q: string; // The quote text
-	a: string; // The author
-	h: string; // The HTML version
-}
 
 export default function RandomQuoteFetcher() {
 
 	const [quote, setQuote] = useState<ZenQuote | null>(null);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [error, seterror] = useState<string | null>(null);
-
-
 
 	useEffect(() => {
 		async function fetchRandomQuote() {
@@ -47,24 +41,60 @@ export default function RandomQuoteFetcher() {
 	}, [])
 
 
-	function OnClickSave() {
-		// TODO: implement local storage
-		toast.success("Saved to your journals")
+	function OnClickSave(quoteToSave: ZenQuote) {
+
+		try {
+			const existingQuotes = localStorage.getItem('savedQuotes');
+			let existingQuotesArray: SavedQuote[] = [];
+
+			if (existingQuotes) {
+				existingQuotesArray = JSON.parse(existingQuotes);
+			}
+
+			const maxId = existingQuotesArray.reduce((max, quote) => Math.max(max, quote.id), 0);
+			const newId = maxId + 1;
+
+			const newSavedQuote: SavedQuote = {
+				id: newId,
+				a: quoteToSave.a || "",
+				q: quoteToSave.q || "",
+			}
+			const isDuplicate: boolean = existingQuotesArray.some((savedQuote) => savedQuote.q === quoteToSave.q && savedQuote.a === quoteToSave.a);
+
+			if (isDuplicate) {
+				toast.warning("Quote already saved", {
+					description: quoteToSave.q
+				});
+				return;
+			}
+			existingQuotesArray.push(newSavedQuote);
+
+			localStorage.setItem('savedQuotes', JSON.stringify(existingQuotesArray))
+			toast.success("Saved to your journals",
+				{
+					description: quote?.q,
+				}
+			)
+		}
+		catch (e: any) {
+			console.log(e)
+			toast.error(e.message);
+		}
+
 	}
 
 	return (
 		<div className='  flex items-center justify-center min-w-screen'>
 			{error && <p className="text-center text-lg text-red-500">{error}</p>}
 
-			{!isLoading && !error && (
+			{!isLoading && !error && quote && (
 				<Card className='fade-in-100 absolute bottom-20 right-20 p-6'>
 					<h1 className='text-4xl font-bold text-center mb-4'>Quote of the day</h1>
 					<CardHeader>
 
-
 						<CardTitle>{quote?.a}</CardTitle>
 						<CardAction>
-							<Button onClick={() => OnClickSave()}>Save</Button>
+							<Button onClick={() => OnClickSave(quote!)}>Save</Button>
 						</CardAction>
 
 					</CardHeader>

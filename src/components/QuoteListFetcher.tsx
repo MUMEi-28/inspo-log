@@ -1,4 +1,3 @@
-import { dummyEntries } from '@/lib/data/Entries'
 import { Separator } from '@radix-ui/react-separator'
 import Link from 'next/link'
 import { Badge } from "@/components/ui/badge"
@@ -9,13 +8,10 @@ import { Card, CardHeader, CardTitle, CardDescription, CardAction, CardContent, 
 import { toast } from "sonner"
 import { Loader2 } from 'lucide-react'
 import { error } from 'console'
+import { SavedQuote, ZenQuote } from '@/types/quotes'
+import { Enriqueta } from 'next/font/google'
 
 export default function QuoteListFetcher() {
-
-	interface ZenQuote {
-		q: string; // The quote text
-		a: string; // The author
-	}
 
 	const [quotes, setQuotes] = useState<ZenQuote[] | null>([]);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -50,10 +46,48 @@ export default function QuoteListFetcher() {
 	}, [])
 
 
-	function OnClickSave(key: number) {
-		toast.success("Saved to your journals", {
-			description: dummyEntries[key].quote,
-		})
+	function OnClickSave(quoteToSave: ZenQuote) {
+		try {
+			const existingQuotes = localStorage.getItem('savedQuotes');
+			let existingQuotesArray: SavedQuote[] = [];
+
+
+			if (existingQuotes) {
+				existingQuotesArray = JSON.parse(existingQuotes);
+			}
+
+			const isDuplicate: boolean = existingQuotesArray.some((savedQuote) =>
+				savedQuote.q === quoteToSave.q && savedQuote.a === quoteToSave.a);
+
+			if (isDuplicate) {
+				toast.warning("Quote already saved", {
+					description: quoteToSave.q
+				});
+				return;
+			}
+
+
+
+
+			const maxId = existingQuotesArray.reduce((max, quote) => Math.max(max, quote.id), 0);
+			const newId = maxId + 1;
+
+			const newSavedQuote: SavedQuote = {
+				id: newId,
+				q: quoteToSave.q || "",
+				a: quoteToSave.a || "",
+			}
+			existingQuotesArray.push(newSavedQuote);
+
+			localStorage.setItem('savedQuotes', JSON.stringify(existingQuotesArray));
+
+			toast.success("Saved to your journals")
+		}
+		catch (err: any) {
+			toast.error(err.message);
+			console.log(err);
+		}
+
 	}
 
 	return (
@@ -79,7 +113,7 @@ export default function QuoteListFetcher() {
 											<CardDescription>
 											</CardDescription>
 											<CardAction>
-												<Button onClick={() => OnClickSave(key)}>Save</Button>
+												<Button onClick={() => OnClickSave(entry)}>Save</Button>
 											</CardAction>
 										</CardHeader>
 
