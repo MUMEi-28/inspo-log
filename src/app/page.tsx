@@ -6,33 +6,15 @@ import React from 'react'
 
 // SHADCN
 import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
-import { dummyEntries } from '@/lib/data/Entries'
-import {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { toast } from "sonner"
 import RandomQuote from '@/components/RandomQuoteFetcher'
+import QuoteListFetcher from '@/components/QuoteListFetcher'
 
 
 export default function page() {
 
-  function OnClickSave(key: number) {
-    toast.success("Saved to your journals", {
-      description: dummyEntries[key].quote,
-    })
-  }
 
   return (
     <div>
-
       <main className=''>
 
         <RandomQuote />
@@ -48,49 +30,8 @@ export default function page() {
           </Button>
         </div>
 
-        <Separator className='border-2' />
-        <div className='min-h-screen  px-12 flex flex-col items-center justify-around'>
-          <h1 className='text-4xl font-bold my-6'>Journals</h1>
+        <QuoteListFetcher />
 
-          {/* QUOTES */}
-          <div className='grid grid-cols-3 gap-4 '>
-            {
-              dummyEntries.map((entry, key) =>
-                <Card key={key} className='flex flex-col items-between'>
-
-                  <CardHeader>
-                    <CardTitle>{entry.author}</CardTitle>
-                    <CardDescription>
-                      <p className='text-start w-full'>{entry.date}</p>
-                    </CardDescription>
-                    <CardAction>
-                      <Button onClick={() => OnClickSave(key)}>Save</Button>
-                    </CardAction>
-                  </CardHeader>
-
-                  <CardContent className='flex items-center justify-center gap-8'>
-                    <img src={entry.image} alt="Placeholder" className='bg-white size-24' />
-                    <q className='text-2xl'>{entry.quote}</q>
-                  </CardContent>
-
-                  <CardFooter>
-                    {
-                      entry.tags.map((tag, key) => <p key={key} className=''>
-                        <Badge className='mr-2 border-2 p-2' variant="secondary">{tag}</Badge>
-                      </p>)
-                    }
-                  </CardFooter>
-                </Card>
-              )
-            }
-
-          </div>
-
-          <Link href="/explore">
-            <Button>See More</Button>
-          </Link>
-
-        </div>
       </main >
 
     </div >

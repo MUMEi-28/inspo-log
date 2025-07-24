@@ -33,8 +33,6 @@ export default function RandomQuoteFetcher() {
 
 				const data: ZenQuote = await response.json();
 				setQuote(data);
-
-				console.log(data);
 			}
 			catch (error: any) {
 				toast.error("" + error)
@@ -56,11 +54,10 @@ export default function RandomQuoteFetcher() {
 
 	return (
 		<div className='  flex items-center justify-center min-w-screen'>
-			{isLoading && <p className="text-center text-lg">Loading quote...</p>}
 			{error && <p className="text-center text-lg text-red-500">{error}</p>}
 
 			{!isLoading && !error && (
-				<Card className='absolute bottom-20 right-20 p-6'>
+				<Card className='fade-in-100 absolute bottom-20 right-20 p-6'>
 					<h1 className='text-4xl font-bold text-center mb-4'>Quote of the day</h1>
 					<CardHeader>
 
