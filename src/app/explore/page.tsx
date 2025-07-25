@@ -139,7 +139,7 @@ export default function page() {
 			toast.success("Saved to your journals")
 		}
 		catch (e: any) {
-			toast.error(e.message);
+			toast.error("Something went wrong!")
 		}
 	}
 

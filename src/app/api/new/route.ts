@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+/* import { NextResponse } from "next/server";
 
 async function POST(request: Request) {
 	const { quote, author } = await request.json();
@@ -16,4 +16,4 @@ async function POST(request: Request) {
 	localStorage.setItem("entries", JSON.stringify(entries));
 
 	return NextResponse.json(newEntry);
-}
+} */

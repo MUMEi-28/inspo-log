@@ -33,7 +33,7 @@ export default function QuoteListFetcher() {
 
 			}
 			catch (error: any) {
-				toast.error("Error fetching quotes", error);
+				toast.error("Something went wrong!")
 				console.log(error);
 			}
 			finally {
@@ -84,7 +84,7 @@ export default function QuoteListFetcher() {
 			toast.success("Saved to your journals")
 		}
 		catch (err: any) {
-			toast.error(err.message);
+			toast.error("Something went wrong!")
 			console.log(err);
 		}
 

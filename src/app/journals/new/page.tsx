@@ -1,73 +1,71 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useActionState, useState } from 'react'
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import Link from 'next/link'
-
-import { cn } from "@/lib/utils"
-import { Check, ChevronsUpDown } from "lucide-react"
-import {
-	Command,
-	CommandEmpty,
-	CommandGroup,
-	CommandInput,
-	CommandItem,
-	CommandList,
-} from "@/components/ui/command"
-import {
-	Popover,
-	PopoverContent,
-	PopoverTrigger,
-} from "@/components/ui/popover"
-
+import { SavedQuote, ZenQuote } from '@/types/quotes'
+import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 
 
 export default function page() {
 
-	const tags = [
-		{
-			value: "future",
-			label: "future",
-		},
-		{
-			value: "action",
-			label: "action",
-		},
-		{
-			value: "motivation",
-			label: "motivation",
-		},
-		{
-			value: "inspiration",
-			label: "inspiration",
-		},
-		{
-			value: "change",
-			label: "change",
-		},
-		{
-			value: "peace",
-			label: "peace",
-		},
-		{
-			value: "leadership",
-			label: "leadership",
-		},
-		{
-			value: "business",
-			label: "business",
-		},
-		{
-			value: "innovation",
-			label: "innovation",
-		},
+	const [quoteText, setQuoteText] = useState<string>('');
+	const [authorName, setAuthorName] = useState<string>('');
 
-	]
+	const router = useRouter();
 
-	const [open, setOpen] = useState(false)
-	const [value, setValue] = useState("")
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
 
+
+		// Basic validation
+		if (!quoteText.trim() || !authorName.trim()) {
+			toast.error("Both entry and author fields are required");
+			return;
+		}
+
+		try {
+			const existingQuotesString = localStorage.getItem('savedQuotes');
+			let existingQuotesArray: SavedQuote[] = [];
+
+			if (existingQuotesString) {
+				existingQuotesArray = JSON.parse(existingQuotesString)
+			}
+
+			// Duplication check
+			const isDuplicate: boolean = existingQuotesArray.some((savedQuote) => savedQuote.q === quoteText.trim() && savedQuote.a === authorName.trim())
+
+			if (isDuplicate) {
+				toast.warning("This quote by the this author is already saved!");
+				return;
+			}
+
+			const newSavedQuote: SavedQuote = {
+				id: existingQuotesArray.reduce((max, quote) => Math.max(max, quote.id), 0) + 1,
+				q: quoteText.trim(),
+				a: authorName.trim()
+			};
+
+			existingQuotesArray.push(newSavedQuote);
+			localStorage.setItem('savedQuotes', JSON.stringify(existingQuotesArray));
+			toast.success("Added entry successfully");
+
+
+			// Clear the form
+			setQuoteText('');
+			setAuthorName('');
+
+			router.push('/journals');
+		}
+		catch (e: any) {
+			toast.error("Error adding new entry: " + e);
+			console.error("Error adding entry to localStorage" + e.message);
+		}
+
+
+	}
 
 
 	return (
@@ -75,69 +73,31 @@ export default function page() {
 			<div className='border p-6 rounded-2xl min-w-lg'>
 
 				<h1 className='text-2xl font-bold mb-6'>Add Entry</h1>
-				<form action="" className='flex flex-col gap-4'>
+				<form onSubmit={handleSubmit} className='flex flex-col gap-4'>
 					<p className='flex flex-col'>
 						<label htmlFor="" className='bloxk'>Entry</label>
-						<Input />
+						<Input value={quoteText}
+							onChange={(e) => setQuoteText(e.target.value)}
+							placeholder='Add you quote here...'
+							required />
+
 					</p>
 					<p className='flex flex-col'>
 						<label htmlFor="" className='bloxk'>Author</label>
-						<Input />
+						<Input value={authorName}
+							onChange={(e) => { setAuthorName(e.target.value) }}
+							required
+							placeholder='Who said it?' />
 					</p>
-					<p className='flex flex-col'>
-						<label htmlFor="" className='bloxk'>Tag</label>
-						<Popover open={open} onOpenChange={setOpen}>
-							<PopoverTrigger asChild>
-								<Button
-									variant="outline"
-									role="combobox"
-									aria-expanded={open}
-									className="w-[200px] justify-between"
-								>
-									{value
-										? tags.find((tag) => tag.value === value)?.label
-										: "Select tag..."}
-									<ChevronsUpDown className="opacity-50" />
-								</Button>
-							</PopoverTrigger>
-							<PopoverContent className="w-[200px] p-0">
-								<Command>
-									<CommandInput placeholder="Search tag..." className="h-9" />
-									<CommandList>
-										<CommandEmpty>No tag found.</CommandEmpty>
-										<CommandGroup>
-											{tags.map((tag) => (
-												<CommandItem
-													key={tag.value}
-													value={tag.value}
-													onSelect={(currentValue) => {
-														setValue(currentValue === value ? "" : currentValue)
-														setOpen(false)
-													}}
-												>
-													{tag.label}
-													<Check
-														className={cn(
-															"ml-auto",
-															value === tag.value ? "opacity-100" : "opacity-0"
-														)}
-													/>
-												</CommandItem>
-											))}
-										</CommandGroup>
-									</CommandList>
-								</Command>
-							</PopoverContent>
-						</Popover>
-					</p>
-				</form>
-				<div className='flex gap-4 justify-end mt-6'>
 
-					<Link href="/journals">
-						<Button variant="secondary">Cancel</Button>
-					</Link>
-					<Button>Submit</Button>
-				</div>
+					<div className='flex gap-4 justify-end mt-6'>
+
+						<Link href="/journals">
+							<Button type='button' variant="secondary">Cancel</Button>
+						</Link>
+						<Button type='submit' >Submit</Button>
+					</div>
+				</form>
 			</div>
 		</div>
 	)

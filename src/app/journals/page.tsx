@@ -29,7 +29,7 @@ export default function page() {
 		}
 		catch (e: any) {
 			console.error(e);
-			toast.error(e.message);
+			toast.error("Something went wrong!")
 		}
 		finally {
 			setIsLoading(false);
@@ -61,7 +61,7 @@ export default function page() {
 			})
 		}
 		catch (e: any) {
-			toast.error("Error: " + e.message);
+			toast.error("Something went wrong!")
 		}
 	}
 

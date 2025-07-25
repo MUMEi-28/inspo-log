@@ -29,7 +29,7 @@ export default function RandomQuoteFetcher() {
 				setQuote(data);
 			}
 			catch (error: any) {
-				toast.error("" + error)
+				toast.error("Something went wrong!")
 				console.error("Error fetching quote:", error);
 			}
 			finally {
@@ -78,7 +78,7 @@ export default function RandomQuoteFetcher() {
 		}
 		catch (e: any) {
 			console.log(e)
-			toast.error(e.message);
+			toast.error("Something went wrong!")
 		}
 
 	}
