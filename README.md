@@ -124,12 +124,6 @@ interface InspoEntry {
 
 ---
 
-## 📄 License
-
-MIT (or your preferred license)
-
----
-
 ## 🙏 Credits
 
 - [ZenQuotes API](https://zenquotes.io/)
