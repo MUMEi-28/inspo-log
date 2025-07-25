@@ -4,11 +4,13 @@
   <h3>Collect your daily spark!</h3>
   <p>A modern, beautiful web application for saving, exploring, and journaling inspirational quotes, thoughts, and life lessons.</p>
   
-  [![Next.js](https://img.shields.io/badge/Next.js-15.4.2-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
-  [![React](https://img.shields.io/badge/React-19.1.0-blue?style=for-the-badge&logo=react&logoColor=white)](https://reactjs.org/)
-  [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-  [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.0-06B6D4?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-  [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
+ [![Next.js](https://img.shields.io/badge/Next.js-15.4.2-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+  [![React](https://img.shields.io/badge/React-19.1.0-blue?style=for-the-badge&logo=react&logoColor=white)](https://reactjs.org/)
+  [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+  [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.0-06B6D4?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+  [![Shadcn UI](https://img.shields.io/badge/shadcn%2Fui-0.8.0-black?style=for-the-badge&logo=vercel&logoColor=white)](https://ui.shadcn.com/)
+  [![Framer Motion](https://img.shields.io/badge/Framer_Motion-12.0.0-purple?style=for-the-badge&logo=framer&logoColor=white)](https://www.framer.com/motion/)
+  [![Lucide React](https://img.shields.io/badge/Lucide_React-0.400.0-orange?style=for-the-badge&logo=lucide&logoColor=white)](https://lucide.dev/icons/)
 </div>
 
 ---
@@ -20,36 +22,38 @@
 ### 🏠 Home Page - Quote of the Day
 *Beautiful, minimalist design with daily inspiration*
 
-![Home Page](./screenshots/home-page.png)
+<img width="2514" height="1181" alt="image" src="https://github.com/user-attachments/assets/0c09e43f-85d8-42cb-ae9c-6dd945685b65" />
+
 
 ### 🔍 Explore Quotes - Browse & Discover
 *Paginated collection of inspiring quotes from various authors*
 
-![Explore Page](./screenshots/explore-page.png)
+<img width="2524" height="1218" alt="image" src="https://github.com/user-attachments/assets/0b5e8c55-e4c3-4591-ba8b-2f6c60e5b136" />
 
 ### 📖 Personal Journal - Your Saved Quotes
 *Manage your personal collection of favorite quotes*
 
-![Journal Page](./screenshots/journal-page.png)
+<img width="2511" height="1159" alt="image" src="https://github.com/user-attachments/assets/bf665064-8cbf-494a-b752-6ad16aa01c60" />
 
 ### ✨ Add New Entry - Create Your Own
 *Add custom quotes, thoughts, and tag them for organization*
 
-![Add Entry](./screenshots/add-entry.png)
+<img width="949" height="606" alt="image" src="https://github.com/user-attachments/assets/526686ba-c608-4b76-94ff-66deb410cdf0" />
 
 ### 🌙 Dark Mode Support
 *Beautiful dark/light theme with smooth transitions*
 
-![Dark Mode](./screenshots/dark-mode.png)
+<img width="862" height="502" alt="image" src="https://github.com/user-attachments/assets/1511f2e4-3f08-4408-9a66-8217efba2236" />
+<img width="2483" height="1174" alt="image" src="https://github.com/user-attachments/assets/ab4b4b92-377c-4e93-84da-7429cf0bf1d1" />
+
 
 ### 📱 Mobile Responsive
 *Optimized for all device sizes*
 
-![Mobile View](./screenshots/mobile-view.png)
+<img width="734" height="1275" alt="image" src="https://github.com/user-attachments/assets/8298ceb6-8775-4684-9247-e491e698abb3" />
 
 </div>
 
-> **Note**: Screenshots will be added soon. Please check back for visual updates!
 
 ---
 
@@ -255,37 +259,9 @@ npm run start
 npm run lint
 ```
 
----
-
-## 🔧 Configuration
-
-### shadcn/ui Configuration
-The project uses shadcn/ui with the following configuration:
-
-```json
-{
-  "style": "new-york",
-  "rsc": true,
-  "tsx": true,
-  "tailwind": {
-    "baseColor": "slate",
-    "cssVariables": true
-  },
-  "iconLibrary": "lucide"
-}
-```
-
-### Theme Configuration
-- **Default**: System preference
-- **Options**: Light, Dark, System
-- **Storage**: Browser localStorage
-- **Transitions**: Smooth color transitions
-
----
-
 ## 📊 Data Models
 
-### Quote (from ZenQuotes API)
+### Quote 
 ```typescript
 interface ZenQuote {
   id?: number;
@@ -294,7 +270,7 @@ interface ZenQuote {
 }
 ```
 
-### Saved Quote (in Journal)
+### Saved Quote 
 ```typescript
 interface SavedQuote {
   id: number;
@@ -302,8 +278,6 @@ interface SavedQuote {
   a: string;  // Author name
 }
 ```
-
----
 
 ## 🌐 API Endpoints
 
@@ -318,143 +292,6 @@ interface SavedQuote {
 - **[ZenQuotes.io](https://zenquotes.io/)** - Inspirational quotes API
 - **Rate Limiting**: Handled gracefully with fallbacks
 - **Caching**: Browser-level caching for performance
-
----
-
-## 🎨 Design System
-
-### Color Palette
-The app uses a sophisticated color system with:
-- **Primary**: Slate-based colors for main UI elements
-- **Background**: Dynamic light/dark backgrounds
-- **Accents**: Subtle colors for interactive elements
-- **Text**: High contrast ratios for accessibility
-
-### Typography
-- **Primary Font**: Geist Sans (optimized for readability)
-- **Monospace**: Geist Mono (for code elements)
-- **Font Loading**: Optimized with Next.js font loading
-
-### Animations
-- **Page Transitions**: Smooth fade and slide effects
-- **Micro-interactions**: Hover states and button feedback
-- **Theme Switching**: Seamless color transitions
-- **Performance**: Hardware-accelerated animations
-
----
-
-## 📱 Pages & User Flow
-
-### 🏠 Home (`/`)
-- **Purpose**: Display quote of the day and app introduction
-- **Features**: Random quote, quick navigation, animated introduction
-- **CTA**: Explore more quotes or start journaling
-
-### 🔍 Explore (`/explore`)
-- **Purpose**: Browse and discover quotes from the collection
-- **Features**: Pagination, search, save to journal, responsive grid
-- **Data**: Fetches from ZenQuotes.io API
-
-### 📖 Journals (`/journals`)
-- **Purpose**: Manage personal collection of saved quotes
-- **Features**: View saved quotes, delete with undo, empty state
-- **Storage**: Browser localStorage
-
-### ➕ Add Entry (`/journals/new`)
-- **Purpose**: Create custom inspirational entries
-- **Features**: Quote input, author field, tag system, validation
-- **UX**: Form validation and success feedback
-
----
-
-## 🔄 State Management
-
-### Local Storage
-- **Saved Quotes**: Persistent quote collection
-- **Theme Preference**: User's chosen theme
-- **App Settings**: User preferences and configurations
-
-### React State
-- **UI State**: Loading states, modals, notifications
-- **Form State**: Input validation and submission
-- **Theme State**: Current theme with next-themes
-
----
-
-## ♿ Accessibility
-
-### Features
-- **Keyboard Navigation**: Full keyboard support
-- **Screen Readers**: Proper ARIA labels and roles
-- **Color Contrast**: WCAG AA compliance
-- **Focus Management**: Visible focus indicators
-- **Semantic HTML**: Proper heading hierarchy
-
-### Tools Used
-- **Radix UI**: Accessible component primitives
-- **shadcn/ui**: Pre-built accessible components
-- **ESLint**: Accessibility linting rules
-
----
-
-## 🚀 Performance
-
-### Optimizations
-- **Next.js App Router**: Faster navigation and loading
-- **Turbopack**: Ultra-fast development builds
-- **Font Optimization**: Automatic font loading optimization
-- **Image Optimization**: Next.js automatic image optimization
-- **Code Splitting**: Automatic code splitting and lazy loading
-
-### Metrics
-- **Core Web Vitals**: Optimized for excellent scores
-- **Bundle Size**: Minimized with tree shaking
-- **Load Time**: Fast initial page load
-- **Runtime Performance**: Smooth 60fps animations
-
----
-
-## 🔒 Security
-
-### Best Practices
-- **Input Sanitization**: Safe handling of user inputs
-- **XSS Prevention**: Proper content escaping
-- **CSRF Protection**: Built-in Next.js protections
-- **Dependencies**: Regular security updates
-
----
-
-## 🌍 Browser Support
-
-### Supported Browsers
-- **Chrome**: 90+
-- **Firefox**: 88+
-- **Safari**: 14+
-- **Edge**: 90+
-
-### Progressive Enhancement
-- **Core Features**: Work without JavaScript
-- **Enhanced Experience**: Full features with JavaScript
-- **Graceful Degradation**: Fallbacks for older browsers
-
----
-
-## 🤝 Contributing
-
-We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
-
-### Development Setup
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-### Code Style
-- **ESLint**: Follow the project's ESLint configuration
-- **Prettier**: Code formatting (coming soon)
-- **TypeScript**: Strict type checking enabled
-- **Commits**: Use conventional commit messages
 
 ---
 
@@ -490,12 +327,6 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 
 ---
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
 ## 🙏 Acknowledgments
 
 ### APIs & Services
@@ -515,19 +346,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## 📞 Support
-
-### Get Help
-- 📧 **Email**: [support@inspolog.com](mailto:support@inspolog.com)
-- 🐛 **Issues**: [GitHub Issues](https://github.com/MUMEi-28/inspo-log/issues)
-- 💬 **Discussions**: [GitHub Discussions](https://github.com/MUMEi-28/inspo-log/discussions)
-
-### Links
-- 🌐 **Live Demo**: [inspolog.vercel.app](https://inspolog.vercel.app)
-- 📱 **GitHub**: [github.com/MUMEi-28/inspo-log](https://github.com/MUMEi-28/inspo-log)
-- 📖 **Documentation**: [docs.inspolog.com](https://docs.inspolog.com)
-
----
 
 <div align="center">
   <h3>💡 Save the moments, words, and wisdom that inspire you. One quote at a time.</h3>
