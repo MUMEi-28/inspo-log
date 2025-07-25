@@ -1,15 +1,15 @@
 'use client'
 
-import React, { useActionState, useState } from 'react'
+import React, { useState } from 'react'
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import Link from 'next/link'
-import { SavedQuote, ZenQuote } from '@/types/quotes'
+import { SavedQuote } from '@/types/quotes'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 
 
-export default function page() {
+export default function NewJournal() {
 
 	const [quoteText, setQuoteText] = useState<string>('');
 	const [authorName, setAuthorName] = useState<string>('');
@@ -59,15 +59,13 @@ export default function page() {
 
 			router.push('/journals');
 		}
-		catch (e: any) {
+		catch (e: unknown) {
 			toast.error("Error adding new entry: " + e);
-			console.error("Error adding entry to localStorage" + e.message);
+			console.error("Error adding entry to localStorage" + e);
 		}
 
 
 	}
-
-
 	return (
 		<div className='flex items-center justify-center flex-col min-h-screen'>
 			<div className='border p-6 rounded-2xl min-w-lg'>

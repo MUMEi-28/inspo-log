@@ -1,10 +1,6 @@
 import { NextResponse } from "next/server";
 
-interface ZenQuote
-{
-	q: string; // quote
-    a: string; // author
-}
+import { ZenQuote } from "@/types/quotes";
 
 export async function GET()
 {
@@ -24,9 +20,9 @@ export async function GET()
 			
 			return NextResponse.json(limitedQuotes);
 		}
-		catch(error: any)
+		catch(err: unknown)
 		{
-			console.error("Error in api/route.ts: " + error);
+			console.error("Error in api/route.ts: " + err);
 			return NextResponse.json({error: "Failed to fetch quotes"}, {status: 500});
 		}
 }

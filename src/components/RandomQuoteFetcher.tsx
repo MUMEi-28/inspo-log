@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { Button } from './ui/button'
-import { Card, CardHeader, CardTitle, CardDescription, CardAction, CardContent, CardFooter } from './ui/card'
+import { Card, CardHeader, CardTitle, CardAction, CardContent, } from './ui/card'
 import { toast } from 'sonner'
 import { ZenQuote, SavedQuote } from '@/types/quotes'
 import { easeIn, motion } from 'framer-motion'
@@ -29,9 +29,9 @@ export default function RandomQuoteFetcher() {
 				const data: ZenQuote = await response.json();
 				setQuote(data);
 			}
-			catch (error: any) {
+			catch (err: unknown) {
 				toast.error("Something went wrong!")
-				console.error("Error fetching quote:", error);
+				console.error("Error fetching quote:", err);
 			}
 			finally {
 				setIsLoading(false);
@@ -77,7 +77,7 @@ export default function RandomQuoteFetcher() {
 				}
 			)
 		}
-		catch (e: any) {
+		catch (e: unknown) {
 			console.log(e)
 			toast.error("Something went wrong!")
 		}

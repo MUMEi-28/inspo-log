@@ -2,10 +2,8 @@
 
 import React, { useEffect, useMemo, useState } from 'react'
 
-import { dummyEntries } from '@/lib/data/Entries'
 import { Button } from '@/components/ui/button'
-import { Card, CardHeader, CardTitle, CardDescription, CardAction, CardContent, CardFooter } from '@/components/ui/card'
-import { Badge } from "@/components/ui/badge"
+import { Card, CardHeader, CardTitle, CardAction, CardContent } from '@/components/ui/card'
 import {
 	Pagination,
 	PaginationContent,
@@ -19,7 +17,7 @@ import { toast } from 'sonner'
 import { Loader, RotateCcw } from 'lucide-react'
 import { SavedQuote, ZenQuote } from '@/types/quotes'
 
-export default function page() {
+export default function Explore() {
 
 	const [quotes, setQuotes] = useState<ZenQuote[] | null>(null);
 	const [isLoading, setIsloading] = useState<boolean>(true);
@@ -41,7 +39,7 @@ export default function page() {
 				const data: ZenQuote[] = await response.json();
 				setQuotes(data);
 			}
-			catch (err: any) {
+			catch (err: unknown) {
 				console.error("Error on explore/page.tsx: " + err);
 			}
 			finally {
@@ -138,7 +136,8 @@ export default function page() {
 
 			toast.success("Saved to your journals")
 		}
-		catch (e: any) {
+		catch (e: unknown) {
+			console.log(e);
 			toast.error("Something went wrong!")
 		}
 	}

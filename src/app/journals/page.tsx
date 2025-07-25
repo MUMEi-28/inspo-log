@@ -2,19 +2,17 @@
 
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { dummyEntries } from '@/lib/data/Entries'
 import { Button } from '@/components/ui/button'
-import { Card, CardHeader, CardTitle, CardDescription, CardAction, CardContent, CardFooter } from '@/components/ui/card'
-import { Badge } from "@/components/ui/badge"
+import { Card, CardHeader, CardTitle, CardAction, CardContent, } from '@/components/ui/card'
 import { toast } from 'sonner'
-import { ZenQuote, SavedQuote } from '@/types/quotes'
+import { SavedQuote } from '@/types/quotes'
 import { Loader2 } from 'lucide-react'
 import { AnimatePresence, easeIn, easeInOut, motion } from 'framer-motion'
 
-export default function page() {
+export default function Journals() {
 
 	const [savedQuotes, setSavedQuotes] = useState<SavedQuote[]>([]);
-	const [isLoading, setIsLoading] = useState<Boolean>(true);
+	const [isLoading, setIsLoading] = useState<boolean>(true);
 
 	useEffect(() => {
 		try {
@@ -28,7 +26,7 @@ export default function page() {
 				setSavedQuotes([]);
 			}
 		}
-		catch (e: any) {
+		catch (e: unknown) {
 			console.error(e);
 			toast.error("Something went wrong!")
 		}
@@ -61,7 +59,8 @@ export default function page() {
 				duration: 5000,
 			})
 		}
-		catch (e: any) {
+		catch (e: unknown) {
+			console.log(e);
 			toast.error("Something went wrong!")
 		}
 	}

@@ -1,15 +1,12 @@
 import { Separator } from '@radix-ui/react-separator'
 import Link from 'next/link'
-import { Badge } from "@/components/ui/badge"
 
 import React, { useEffect, useState } from 'react'
 import { Button } from "@/components/ui/button"
-import { Card, CardHeader, CardTitle, CardDescription, CardAction, CardContent, CardFooter } from './ui/card'
+import { Card, CardHeader, CardTitle, CardDescription, CardAction, CardContent, } from './ui/card'
 import { toast } from "sonner"
 import { Loader2 } from 'lucide-react'
-import { error } from 'console'
 import { SavedQuote, ZenQuote } from '@/types/quotes'
-import { Enriqueta } from 'next/font/google'
 
 
 import { easeIn, motion } from 'framer-motion'
@@ -37,9 +34,9 @@ export default function QuoteListFetcher() {
 				console.log(data);
 
 			}
-			catch (error: any) {
+			catch (err: unknown) {
 				toast.error("Something went wrong!")
-				console.log(error);
+				console.log(err);
 
 				setError("Can't load quotes")
 			}
@@ -90,7 +87,7 @@ export default function QuoteListFetcher() {
 
 			toast.success("Saved to your journals")
 		}
-		catch (err: any) {
+		catch (err: unknown) {
 			toast.error("Something went wrong!")
 			console.log(err);
 		}
@@ -147,7 +144,7 @@ export default function QuoteListFetcher() {
 							animate={{ opacity: 1, y: 0 }}
 							transition={{
 								duration: 0.8,
-								delay: (quotes?.length! * 0.1) + 0.5,
+								delay: ((quotes?.length || 0) * 0.1) + 0.5,
 								ease: easeIn,
 								type: "spring",
 								stiffness: 100

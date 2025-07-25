@@ -8,14 +8,11 @@ import React from 'react'
 import { Button } from "@/components/ui/button"
 import RandomQuote from '@/components/RandomQuoteFetcher'
 import QuoteListFetcher from '@/components/QuoteListFetcher'
-import { AnimatePresence, easeIn, easeInOut, motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 
 
 export default function page() {
 
-  function generateRandomDelayAnimation(min: number, max: number): number {
-    return Math.random() * (max - min) + min;
-  }
   return (
 
     <main className=''>

@@ -5,7 +5,6 @@ import { ThemeProvider } from "@/components/theme-provider";
 import PageHeader from "@/components/PageHeader";
 import { Separator } from "@/components/ui/separator";
 import { Toaster } from "@/components/ui/sonner"
-import { GithubIcon } from "lucide-react";
 
 
 const geistSans = Geist({
