@@ -11,10 +11,15 @@ import { error } from 'console'
 import { SavedQuote, ZenQuote } from '@/types/quotes'
 import { Enriqueta } from 'next/font/google'
 
+
+import { easeIn, motion } from 'framer-motion'
+
 export default function QuoteListFetcher() {
 
 	const [quotes, setQuotes] = useState<ZenQuote[] | null>([]);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
+
+	const [error, setError] = useState<string>('');
 
 	useEffect(() => {
 		async function GetQuotes() {
@@ -35,6 +40,8 @@ export default function QuoteListFetcher() {
 			catch (error: any) {
 				toast.error("Something went wrong!")
 				console.log(error);
+
+				setError("Can't load quotes")
 			}
 			finally {
 				setIsLoading(false);
@@ -90,6 +97,14 @@ export default function QuoteListFetcher() {
 
 	}
 
+	if (error) {
+		return (
+			<div className='flex items-center justify-center h-screen'>
+				<p className='text-2xl'>{error}</p>
+			</div>
+		)
+	}
+
 	return (
 		<div>
 			<Separator className='border-2' />
@@ -103,7 +118,7 @@ export default function QuoteListFetcher() {
 						<h1 className='text-4xl font-bold my-6'>Journals</h1>
 
 						{/* QUOTES */}
-						<div className='grid grid-cols-3 gap-4 '>
+						<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 '>
 							{
 								quotes?.map((entry, key) =>
 									<Card key={key} className='flex flex-col items-between'>
@@ -127,9 +142,22 @@ export default function QuoteListFetcher() {
 							}
 						</div>
 
-						<Link href="/explore">
-							<Button>See More</Button>
-						</Link>
+						<motion.div
+							initial={{ opacity: 0, y: 20 }}
+							animate={{ opacity: 1, y: 0 }}
+							transition={{
+								duration: 0.8,
+								delay: (quotes?.length! * 0.1) + 0.5,
+								ease: easeIn,
+								type: "spring",
+								stiffness: 100
+							}}
+							className="w-full flex justify-center"
+						>
+							<Link href="/explore">
+								<Button className='my-12'>See More</Button>
+							</Link>
+						</motion.div>
 
 					</div>
 				)

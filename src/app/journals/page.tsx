@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge"
 import { toast } from 'sonner'
 import { ZenQuote, SavedQuote } from '@/types/quotes'
 import { Loader2 } from 'lucide-react'
+import { AnimatePresence, easeIn, easeInOut, motion } from 'framer-motion'
 
 export default function page() {
 
@@ -92,6 +93,10 @@ export default function page() {
 		)
 	}
 
+	function generateRandomDelayAnimation(min: number, max: number): number {
+		return Math.random() * (max - min) + min;
+	}
+
 	return (
 		<div className='flex items-center  flex-col min-h-screen p-12'>
 
@@ -110,28 +115,50 @@ export default function page() {
 				</div>
 			</div>
 
-			<div className='grid grid-cols-3 gap-4 '>
-				{
-					savedQuotes.map((entry) =>
-						<Card key={entry.id} className='flex flex-col items-between'>
-
-							<CardHeader>
-								<CardTitle>{entry.a}</CardTitle>
-
-								<CardAction>
-									<Button variant="destructive" onClick={() => onClickDelete(entry.id)}>Delete</Button>
-								</CardAction>
-							</CardHeader>
-
-							<CardContent className='flex items-center justify-center gap-8'>
-								<q className='text-2xl'>{entry.q}</q>
-							</CardContent>
-
-						</Card>
-					)
-				}
-
-			</div>
-		</div>
+			<AnimatePresence mode="popLayout">
+				<motion.div
+					className='columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-6 space-y-6'
+				>
+					{
+						savedQuotes.map((entry) => (
+							<motion.div
+								key={entry.id}
+								initial={{ opacity: 0, y: 50 }}
+								whileInView={{ opacity: 1, y: 0 }}
+								viewport={{ once: true, amount: 0.5 }}
+								exit={{
+									opacity: 0, y: -20, scale: 0.8,
+									transition: {
+										duration: 0.3, ease: easeInOut
+									}
+								}}
+								transition={{
+									duration: 0.8,
+									ease: easeIn,
+									delay: generateRandomDelayAnimation(0.1, 0.5),
+									type: "spring"
+								}}
+								className="inline-block w-full break-inside-avoid-column"
+							>
+								<Card className='flex flex-col justify-between h-full'>
+									<CardHeader className="flex-row items-start justify-between">
+										<CardTitle className="flex-grow">{entry.a}</CardTitle>
+										<CardAction>
+											<Button variant="destructive"
+												onClick={() => onClickDelete(entry.id)}>
+												Delete
+											</Button>
+										</CardAction>
+									</CardHeader>
+									<CardContent className='flex flex-grow items-center justify-center p-6'>
+										<q className='text-2xl text-center  leading-relaxed'>{entry.q}</q>
+									</CardContent>
+								</Card>
+							</motion.div>
+						))
+					}
+				</motion.div>
+			</AnimatePresence>
+		</div >
 	)
 }

@@ -5,6 +5,7 @@ import { Button } from './ui/button'
 import { Card, CardHeader, CardTitle, CardDescription, CardAction, CardContent, CardFooter } from './ui/card'
 import { toast } from 'sonner'
 import { ZenQuote, SavedQuote } from '@/types/quotes'
+import { easeIn, motion } from 'framer-motion'
 
 
 export default function RandomQuoteFetcher() {
@@ -84,26 +85,41 @@ export default function RandomQuoteFetcher() {
 	}
 
 	return (
-		<div className='  flex items-center justify-center min-w-screen'>
+		<div className='  flex items-center justify-center '>
 			{error && <p className="text-center text-lg text-red-500">{error}</p>}
 
 			{!isLoading && !error && quote && (
-				<Card className='fade-in-100 absolute bottom-20 right-20 p-6'>
-					<h1 className='text-4xl font-bold text-center mb-4'>Quote of the day</h1>
-					<CardHeader>
+				<motion.div
+					initial={{ opacity: 0 }}
+					animate={{ opacity: 1 }}
+					transition={{
+						duration: .8,
+						delay: .2,
+						ease: easeIn,
+						type: "spring",
+						stiffness: 100
+					}}
+					className="
+					 w-11/12 max-w-lg                
+					 mt-12 mb-8                     
+					 sm:absolute sm:top-20          
+					 sm:left-1/2 sm:-translate-x-1/2 
+				 "
+				>
+					<Card className='p-6'>
+						<h1 className='text-4xl font-bold text-center mb-4'>Quote of the day</h1>
+						<CardHeader>
+							<CardTitle>{quote?.a}</CardTitle>
+							<CardAction>
+								<Button onClick={() => OnClickSave(quote!)}>Save</Button>
+							</CardAction>
+						</CardHeader>
 
-						<CardTitle>{quote?.a}</CardTitle>
-						<CardAction>
-							<Button onClick={() => OnClickSave(quote!)}>Save</Button>
-						</CardAction>
-
-					</CardHeader>
-
-					<CardContent className='flex items-center justify-center gap-8'>
-						<q className='text-2xl'>{quote?.q}</q>
-					</CardContent>
-
-				</Card>
+						<CardContent className='flex items-center justify-center gap-8'>
+							<q className='text-2xl text-center'>{quote?.q}</q>
+						</CardContent>
+					</Card>
+				</motion.div>
 			)}
 		</div>
 	)
