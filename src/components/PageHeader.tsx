@@ -8,14 +8,13 @@ export default function PageHeader() {
 	return (
 		<div>
 			<header
-
 				className='flex justify-between border-b items-center p-4'>
 				<Link href="/">
 					<h1 className='text-2xl font-bold'>InspoLog</h1>
 				</Link>
 
 				<div
-					className='flex min-w-sm items-center justify-around'
+					className='flex items-center justify-around'
 
 				>
 					<Button asChild variant="link">

@@ -67,8 +67,8 @@ export default function NewJournal() {
 
 	}
 	return (
-		<div className='flex items-center justify-center flex-col min-h-screen'>
-			<div className='border p-6 rounded-2xl min-w-lg'>
+		<div className='flex items-center justify-start sm:justify-center flex-col  py-12 sm:py-0 min-h-screen '>
+			<div className='border p-6 rounded-2xl sm:min-w-lg sm:min-h-l/2'>
 
 				<h1 className='text-2xl font-bold mb-6'>Add Entry</h1>
 				<form onSubmit={handleSubmit} className='flex flex-col gap-4'>

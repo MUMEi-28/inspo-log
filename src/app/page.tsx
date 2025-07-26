@@ -17,7 +17,6 @@ export default function page() {
 
     <main className=''>
 
-
       <div className='flex flex-col items-center justify-center h-screen'>
         <motion.h2 initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -29,7 +28,11 @@ export default function page() {
             stiffness: 100
           }}
 
-          className='text-8xl font-bold text-center mb-15'>InspoLog - Collect <br /> Your Daily Spark</motion.h2>
+          className='flex flex-col items-center justify-center gap-1 font-bold text-center '>
+          <span className='text-4xl sm:text-6xl '>InspoLog</span>
+          <span className='text-2xl sm:text-4xl'>Collect Your Daily Spark</span>
+
+        </motion.h2>
 
         <motion.p initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -40,7 +43,7 @@ export default function page() {
             type: "spring",
             stiffness: 100
           }}
-          className='text-center mb-10 text-2xl'>Save quotes, thoughts, and lessons that inspire you. One moment at a time.</motion.p>
+          className='text-center  text-xl sm:text-2xl p-6'>Save quotes, thoughts, and lessons that inspire you. One moment at a time.</motion.p>
 
         <motion.div initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}

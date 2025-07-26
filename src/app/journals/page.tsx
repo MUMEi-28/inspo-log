@@ -100,8 +100,8 @@ export default function Journals() {
 		<div className='flex items-center  flex-col min-h-screen p-12'>
 
 			<div className='flex justify-between w-full p-4'>
-				<h1 className='text-4xl font-bold'>Saved Journals</h1>
-				<div className='flex gap-6 '>
+				<h1 className='text-xl sm:text-4xl font-bold'>Saved Journals</h1>
+				<div className='flex flex-col-reverse gap-2 sm:flex-row sm:gap-6'>
 
 					<Link href="/explore">
 						<Button variant="outline">Browse</Button>
