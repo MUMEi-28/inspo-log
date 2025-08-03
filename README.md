@@ -108,6 +108,11 @@
 - **[PostCSS](https://postcss.org/)** - CSS processing
 - **[Turbopack](https://turbo.build/pack)** - Fast development builds
 
+
+
+### Prototype
+- **[Exalidraw](https://excalidraw.com/#json=F4JqDbsMpTBVxef8S2ze0,u_uJWyvd0LO9EFVpf9bvfw)** - view prototype
+
 ---
 
 ## 📦 Dependencies
