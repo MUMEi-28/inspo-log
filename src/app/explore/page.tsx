@@ -168,7 +168,7 @@ export default function Explore() {
 		<div className='min-h-[90vh] p-12 flex flex-col justify-between'>
 
 			<div className='flex items-center justify-center min-h-[90vh]'>
-				<div className='grid grid-cols-3 gap-4 '>
+				<div className='grid grid-cols-1 gap-4 sm:grid-cols-3'>
 					{
 						currentQuotes?.map((entry, key) =>
 							<Card key={key} className='flex flex-col items-between'>
